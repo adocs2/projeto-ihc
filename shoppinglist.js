@@ -25,6 +25,7 @@ const sampleListItem = {
 	"type": "item",
 	"version": 1,
 	"title": "",
+  "price" : "",
 	"checked": false,
 	"createdAt": "",
 	"updatedAt": ""
@@ -86,6 +87,7 @@ var app = new Vue({
 		singleList: null,
 		currentListId: null,
 		newItemTitle:'',
+    newItemPrice:'',
 		places: [],
 		selectedPlace: null,
 		syncURL:'',
@@ -103,15 +105,17 @@ var app = new Vue({
       for(var i in this.shoppingListItems) {
       	var d = this.shoppingListItems[i];
       	if (!obj[d.list]) {
-      		obj[d.list] = { total: 0, checked: 0};
+      		obj[d.list] = { price: 0, total: 0, checked: 0};
       	}
+        obj[d.list].price = obj[d.list].price + parseFloat(d.price);
       	obj[d.list].total++;
       	if (d.checked) {
       		obj[d.list].checked++;
       	}
       }
       return obj;
-  },
+    },
+
   sortedShoppingLists: function() {
   	return this.shoppingLists.sort(newestFirst);
   },
@@ -355,10 +359,11 @@ methods: {
     // when a new shopping list item is added
     // we create a new document and write it to the db
     onAddListItem: function() {
-    	if (!this.newItemTitle) return;
+    	if (!this.newItemTitle || !this.newItemPrice) return;
     	var obj = JSON.parse(JSON.stringify(sampleListItem));
     	obj._id = 'item:' + cuid();
     	obj.title = this.newItemTitle;
+      obj.price = this.newItemPrice;
     	obj.list = this.currentListId;
     	obj.createdAt = new Date().toISOString();
     	obj.updatedAt = new Date().toISOString();
@@ -366,6 +371,7 @@ methods: {
     		obj._rev = data.rev;
     		this.shoppingListItems.unshift(obj);
     		this.newItemTitle = '';
+        this.newItemPrice = '';
     	});
     },
 
