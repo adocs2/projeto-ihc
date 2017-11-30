@@ -78,11 +78,11 @@
         <md-list-item>
           <md-input-container class="md-block">
             <label>Nome do produto</label>
-            <md-input v-model="newItemTitle" placeholder="por exemplo: Picanha" @keyup.enter.native="onAddListItem"></md-input>
+            <md-input v-model="newItemTitle" required placeholder="por exemplo: Picanha" @keyup.enter.native="onAddListItem"></md-input>
           </md-input-container><span style="color: red"><strong>|</strong></span>
           <md-input-container class="md-block">
             <label>Preço do produto</label>
-            <md-input type="number" v-model="newItemPrice" placeholder="por exemplo: 40.00" @keyup.enter.native="onAddListItem"></md-input>
+            <md-input type="number" required v-model="newItemPrice" placeholder="por exemplo: 40.00" @keyup.enter.native="onAddListItem"></md-input>
           </md-input-container>
           <md-button class="md-icon-button md-list-action" v-on:click="onAddListItem" v-bind:disabled="(newItemTitle.length === 0 || newItemPrice.length === 0)">
             <md-icon class="md-primary">add_shopping_cart</md-icon>
